@@ -22,6 +22,24 @@ export const specProjectMinimal = defineProject({
   },
 });
 
+export const specProjectGnosis = defineProject({
+  test: {
+    name: "spec-gnosis",
+    include: ["**/test/spec/**/*.test.ts"],
+    setupFiles: [
+      path.join(__dirname, "../scripts/vitest/setupFiles/customMatchers.ts"),
+      path.join(__dirname, "../scripts/vitest/setupFiles/dotenv.ts"),
+      path.join(__dirname, "../scripts/vitest/setupFiles/lodestarPreset.ts"),
+    ],
+    testTimeout: 1000 * 60 * 15,
+    hookTimeout: 1000 * 60 * 15,
+    pool: "forks",
+    env: {
+      LODESTAR_PRESET: "gnosis",
+    },
+  },
+});
+
 export const specProjectMainnet = defineProject({
   test: {
     name: "spec-mainnet",

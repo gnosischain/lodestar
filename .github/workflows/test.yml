@@ -226,6 +226,22 @@ jobs:
       - name: Spec tests mainnet
         run: NODE_OPTIONS='--max-old-space-size=4096' pnpm test:spec:mainnet
         working-directory: packages/beacon-node
+      # Gnosis-preset spec tests (vectors from gnosischain/consensus-specs). Marked
+      # continue-on-error until gnosischain/consensus-specs publishes a gnosis.tar.gz release,
+      # so a missing-vectors download/run does not fail the core spec-tests job.
+      - name: Restore Gnosis spec tests cache
+        uses: actions/cache@27d5ce7f107fe9357f9df03efb73ab90386fccae # v5.0.5
+        with:
+          path: packages/beacon-node/spec-tests-gnosis
+          key: spec-test-data-gnosis-${{ hashFiles('spec-tests-version.json') }}
+      - name: Download Gnosis spec tests
+        run: pnpm download-spec-tests:gnosis
+        working-directory: packages/beacon-node
+        continue-on-error: true
+      - name: Spec tests gnosis
+        run: NODE_OPTIONS='--max-old-space-size=4096' pnpm test:spec:gnosis
+        working-directory: packages/beacon-node
+        continue-on-error: true
       - name: Spec tests validator
         run: pnpm test:spec
         working-directory: packages/validator
