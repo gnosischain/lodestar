@@ -10,7 +10,7 @@
     ]
   },
   "gnosisConsensusSpecsTests": {
-    "specVersion": "v1.7.0-alpha.4",
+    "specVersion": "v1.7.0-alpha.8",
     "specTestsRepoUrl": "https://github.com/gnosischain/consensus-specs",
     "outputDirBase": "spec-tests-gnosis",
     "testsToDownload": [
