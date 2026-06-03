@@ -9,6 +9,14 @@
       "minimal"
     ]
   },
+  "gnosisConsensusSpecsTests": {
+    "specVersion": "v1.7.0-alpha.9",
+    "specTestsRepoUrl": "https://github.com/gnosischain/consensus-specs",
+    "outputDirBase": "spec-tests-gnosis",
+    "testsToDownload": [
+      "gnosis"
+    ]
+  },
   "blsSpecTests": {
     "specVersion": "v0.1.1",
     "specTestsRepoUrl": "https://github.com/ethereum/bls12-381-tests",

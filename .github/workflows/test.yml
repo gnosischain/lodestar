@@ -209,22 +209,28 @@ jobs:
         with:
           path: packages/beacon-node/spec-tests
           key: spec-test-data-${{ hashFiles('spec-tests-version.json') }}
-      - name: Download spec tests
+      # This is the Gnosis fork: the preset under test is gnosis, so we recycle the
+      # preset spec-test run for gnosis and do NOT run the mainnet/minimal presets.
+      # general + bls are preset-independent and kept.
+      - name: Download spec tests (general + bls)
         run: pnpm download-spec-tests
-      # Run them in different steps to quickly identifying which command failed
-      # Otherwise just doing `pnpm test:spec` you can't tell which specific suite failed
-      # many of the suites have identical names for minimal and mainnet
+      - name: Restore Gnosis spec tests cache
+        uses: actions/cache@27d5ce7f107fe9357f9df03efb73ab90386fccae # v5.0.5
+        with:
+          path: packages/beacon-node/spec-tests-gnosis
+          key: spec-test-data-gnosis-${{ hashFiles('spec-tests-version.json') }}
+      - name: Download Gnosis spec tests
+        run: pnpm download-spec-tests:gnosis
+        working-directory: packages/beacon-node
+      # Run in separate steps so it's clear which suite failed.
       - name: Spec tests general
         run: pnpm test:spec:general
         working-directory: packages/beacon-node
       - name: Spec tests bls
         run: pnpm test:spec:bls
         working-directory: packages/beacon-node
-      - name: Spec tests minimal
-        run: pnpm test:spec:minimal
-        working-directory: packages/beacon-node
-      - name: Spec tests mainnet
-        run: NODE_OPTIONS='--max-old-space-size=4096' pnpm test:spec:mainnet
+      - name: Spec tests gnosis
+        run: NODE_OPTIONS='--max-old-space-size=4096' pnpm test:spec:gnosis
         working-directory: packages/beacon-node
       - name: Spec tests validator
         run: pnpm test:spec
