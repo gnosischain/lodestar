@@ -2,7 +2,7 @@ import path from "node:path";
 import {TestUserConfig, defineConfig} from "vitest/config";
 import {browserTestProject} from "./configs/vitest.config.browser.js";
 import {e2eMainnetProject, e2eMinimalProject} from "./configs/vitest.config.e2e.js";
-import {specProjectMainnet, specProjectMinimal} from "./configs/vitest.config.spec.js";
+import {specProjectGnosis, specProjectMainnet, specProjectMinimal} from "./configs/vitest.config.spec.js";
 import {typesTestProject} from "./configs/vitest.config.types.js";
 import {unitTestMainnetProject, unitTestMinimalProject} from "./configs/vitest.config.unit.js";
 import {esmCjsInteropPlugin} from "./scripts/vite/plugins/esmCjsInteropPlugin.js";
@@ -48,11 +48,16 @@ export default defineConfig({
       },
       {
         extends: true,
+        ...specProjectGnosis,
+      },
+      {
+        extends: true,
         ...typesTestProject,
       },
     ],
     exclude: [
       "**/spec-tests/**",
+      "**/spec-tests-gnosis/**",
       "**/spec-tests-bls/**",
       "**/*.browser.test.ts",
       "**/node_modules/**",
